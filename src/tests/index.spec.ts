@@ -23,6 +23,7 @@ describe('Testing in row', () => {
   bootstrapTest();
   afterAll(() => {
     console.log(`Testing: ${baseUrl}`);
-    console.log(`Nota final:${Counter.getValue()}`);
+    console.log(`Nota final: ${Counter.getValue()}`);
+    console.log(`Total de acertos: ${Counter.getAsserts()}/${Counter.getTests()}`);
   });
 });
