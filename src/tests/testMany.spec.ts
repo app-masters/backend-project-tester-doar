@@ -24,11 +24,7 @@ describe('[Testing] Many URLs', () => {
     bootstrapTest(baseUrl, Counter);
 
     afterAll(() => {
-      console.log(`
-        Testing: ${baseUrl}
-        Nota final: ${Counter.getValue()}
-        Total de acertos: ${Counter.getAsserts()}/${Counter.getTests()}
-      `);
+      process.stdout.write(`Acertos: ${Counter.getAsserts()}/${Counter.getTests()} - URL: ${baseUrl} \r\n`);
 
       arrGrades.push({
         name: item?.name,
