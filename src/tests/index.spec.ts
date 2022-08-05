@@ -5,7 +5,7 @@ import { Grades } from './grades';
 jest.setTimeout(45000);
 const argUrl = process.argv[process.argv.length - 1].slice(2);
 if (argUrl.slice(0, 3) !== 'url') {
-  console.log('Correct arg --> "--url=http://myUrl.com"');
+  process.stdout.write('Correct arg --> "--url=http://myUrl.com"');
   process.exit();
 }
 const baseUrl = argUrl.slice(4).replace(/\/$/, '');
@@ -18,11 +18,13 @@ const bootstrapTest = () => {
 
 describe(`[Testing] URL: ${baseUrl}`, () => {
   beforeAll(() => {
-    console.log(`Testing: ${baseUrl}`);
+    process.stdout.write(`Testing: ${baseUrl}`);
   });
+
   bootstrapTest();
+
   afterAll(() => {
-    console.log(`
+    process.stdout.write(`
       Testing: ${baseUrl}
       Nota final: ${Counter.getValue()}
       Total de acertos: ${Counter.getAsserts()}/${Counter.getTests()}

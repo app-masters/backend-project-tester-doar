@@ -24,8 +24,6 @@ describe('[Testing] Many URLs', () => {
     bootstrapTest(baseUrl, Counter);
 
     afterAll(() => {
-      process.stdout.write(`Acertos: ${Counter.getAsserts()}/${Counter.getTests()} - URL: ${baseUrl} \r\n`);
-
       arrGrades.push({
         name: item?.name,
         url: baseUrl,
@@ -37,7 +35,9 @@ describe('[Testing] Many URLs', () => {
   afterAll(() => {
     console.log('\n\n\n');
     arrGrades.sort((a, b) => b.grade - a.grade);
-    console.log(arrGrades);
+    arrGrades.forEach((item) => {
+      process.stdout.write(`Acertos: ${item.asserts} - URL: ${item.url} \r\n`);
+    });
     fs.writeFileSync('./src/grades.json', JSON.stringify(arrGrades, null, 2));
   });
 });

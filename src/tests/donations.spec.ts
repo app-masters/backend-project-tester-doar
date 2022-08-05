@@ -32,6 +32,20 @@ const testDonation = (baseUrl: string, counter: Grades) => {
       counter.increment(1);
     });
 
+    it('should return 200 OK - Without email', async () => {
+      counter.newTest();
+      const user = makeUser();
+
+      const response = await request(`${baseUrl}/donation`).post('/')
+        .send({
+          ...user, email: undefined,
+        });
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toHaveProperty('success', true);
+      counter.increment(1);
+    });
+
     it('should return 400 BAD REQUEST - Incorrect Total Devices', async () => {
       counter.newTest();
       const user = makeUser();
@@ -41,6 +55,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
 
       expect(response.statusCode).toBe(400);
       expect(response.body).toHaveProperty('error', true);
+      expect(response.body).toHaveProperty('errorMessage');
       counter.increment(1);
     });
 
@@ -53,6 +68,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
 
       expect(response.statusCode).toBe(400);
       expect(response.body).toHaveProperty('error', true);
+      expect(response.body).toHaveProperty('errorMessage');
       counter.increment(1);
     });
 
@@ -66,6 +82,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
       expect(response.statusCode).toBe(400);
       expect(response.body).toHaveProperty('error', true);
       expect(response.body).toHaveProperty('requiredFields', ['state']);
+      expect(response.body).toHaveProperty('errorMessage');
       counter.increment(1);
     });
 
@@ -79,6 +96,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
       expect(response.statusCode).toBe(400);
       expect(response.body).toHaveProperty('error', true);
       expect(response.body).toHaveProperty('requiredFields', ['city', 'neighborhood']);
+      expect(response.body).toHaveProperty('errorMessage');
       counter.increment(1);
     });
 
@@ -87,7 +105,9 @@ const testDonation = (baseUrl: string, counter: Grades) => {
       const user = makeUser();
 
       const response = await request(`${baseUrl}/donation`).post('/')
-        .send({ ...user, city: ' ', neighborhood: '', complement: '  ' });
+        .send({
+          ...user, city: ' ', neighborhood: '', complement: '  ',
+        });
 
       expect(response.statusCode).toBe(400);
       expect(response.body).toHaveProperty('error', true);
@@ -104,6 +124,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
 
       expect(response.statusCode).toBe(400);
       expect(response.body).toHaveProperty('error', true);
+      expect(response.body).toHaveProperty('errorMessage');
       counter.increment(1);
     });
 
@@ -116,6 +137,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
 
       expect(response.statusCode).toBe(400);
       expect(response.body).toHaveProperty('error', true);
+      expect(response.body).toHaveProperty('errorMessage');
       counter.increment(1);
     });
   });
