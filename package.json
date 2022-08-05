@@ -6,7 +6,8 @@
   "author": "Diener Dornelas <diener.ld@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest tests/index.spec.ts --detectOpenHandles"
+    "test": "jest tests/index.spec.ts --detectOpenHandles",
+    "testAll": "jest tests/testMany.spec.ts --detectOpenHandles"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",

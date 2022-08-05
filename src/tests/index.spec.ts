@@ -16,13 +16,16 @@ const bootstrapTest = () => {
   testDonation(baseUrl, Counter);
 };
 
-describe('Testing in row', () => {
+describe(`[Testing] URL: ${baseUrl}`, () => {
   beforeAll(() => {
     console.log(`Testing: ${baseUrl}`);
   });
   bootstrapTest();
   afterAll(() => {
-    console.log(`Testing: `, baseUrl);
-    console.log(`Nota final:`, Counter.getValue());
+    console.log(`
+      Testing: ${baseUrl}
+      Nota final: ${Counter.getValue()}
+      Total de acertos: ${Counter.getAsserts()}/${Counter.getTests()}
+    `);
   });
 });
