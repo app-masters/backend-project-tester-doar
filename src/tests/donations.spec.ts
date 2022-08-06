@@ -21,6 +21,20 @@ const testDonation = (baseUrl: string, counter: Grades) => {
   });
 
   describe('[Donation]', () => {
+    it('should GET donations', async () => {
+      counter.newTest();
+      const user = makeUser();
+      await request(baseUrl)
+        .post('/donations')
+        .send(user);
+
+      const response = await request(baseUrl).get('/donation');
+
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('success', true);
+      counter.increment(1);
+    });
+
     it('should return 200 OK - User Saved', async () => {
       counter.newTest();
       const user = makeUser();
