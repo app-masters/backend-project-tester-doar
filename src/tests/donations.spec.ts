@@ -21,6 +21,14 @@ const testDonation = (baseUrl: string, counter: Grades) => {
   });
 
   describe('[Donation]', () => {
+    it('should Test CORS', async () => {
+      counter.newTest();
+      const response = await request(baseUrl).options('/donation');
+
+      expect(response.headers['access-control-allow-origin']).toBeTruthy();
+      counter.increment(1);
+    });
+
     it('should GET donations', async () => {
       counter.newTest();
       const user = makeUser();
@@ -31,7 +39,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
       const response = await request(baseUrl).get('/donation');
 
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('success', true);
+      expect(response.type).toBe('application/json');
       counter.increment(1);
     });
 
@@ -42,6 +50,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
       const response = await request(`${baseUrl}/donation`).post('/').send(user);
 
       expect(response.statusCode).toBe(200);
+      expect(response.type).toBe('application/json');
       expect(response.body).toHaveProperty('success', true);
       counter.increment(1);
     });
@@ -56,6 +65,22 @@ const testDonation = (baseUrl: string, counter: Grades) => {
         });
 
       expect(response.statusCode).toBe(200);
+      expect(response.type).toBe('application/json');
+      expect(response.body).toHaveProperty('success', true);
+      counter.increment(1);
+    });
+
+    it('should return 200 OK - Without email and complement', async () => {
+      counter.newTest();
+      const user = makeUser();
+
+      const response = await request(`${baseUrl}/donation`).post('/')
+        .send({
+          ...user, email: undefined, complement: undefined,
+        });
+
+      expect(response.statusCode).toBe(200);
+      expect(response.type).toBe('application/json');
       expect(response.body).toHaveProperty('success', true);
       counter.increment(1);
     });
@@ -68,6 +93,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
       const response = await request(`${baseUrl}/donation`).post('/').send(user);
 
       expect(response.statusCode).toBe(400);
+      expect(response.type).toBe('application/json');
       expect(response.body).toHaveProperty('error', true);
       expect(response.body).toHaveProperty('errorMessage');
       counter.increment(1);
@@ -81,6 +107,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
       const response = await request(`${baseUrl}/donation`).post('/').send(user);
 
       expect(response.statusCode).toBe(400);
+      expect(response.type).toBe('application/json');
       expect(response.body).toHaveProperty('error', true);
       expect(response.body).toHaveProperty('errorMessage');
       counter.increment(1);
@@ -94,6 +121,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
         .post('/').send({ ...user, state: undefined });
 
       expect(response.statusCode).toBe(400);
+      expect(response.type).toBe('application/json');
       expect(response.body).toHaveProperty('error', true);
       expect(response.body).toHaveProperty('requiredFields', ['state']);
       expect(response.body).toHaveProperty('errorMessage');
@@ -108,6 +136,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
         .send({ ...user, city: undefined, neighborhood: undefined });
 
       expect(response.statusCode).toBe(400);
+      expect(response.type).toBe('application/json');
       expect(response.body).toHaveProperty('error', true);
       expect(response.body).toHaveProperty('requiredFields', ['city', 'neighborhood']);
       expect(response.body).toHaveProperty('errorMessage');
@@ -124,8 +153,44 @@ const testDonation = (baseUrl: string, counter: Grades) => {
         });
 
       expect(response.statusCode).toBe(400);
+      expect(response.type).toBe('application/json');
       expect(response.body).toHaveProperty('error', true);
       expect(response.body).toHaveProperty('errorMessage');
+      expect(response.body).toHaveProperty('requiredFields');
+      counter.increment(1);
+    });
+
+    it('should return 400 BAD REQUEST - Sending phone number with invalid character', async () => {
+      counter.newTest();
+      const user = makeUser();
+
+      const response = await request(`${baseUrl}/donation`).post('/')
+        .send({
+          ...user, phone: '1199999999x',
+        });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.type).toBe('application/json');
+      expect(response.body).toHaveProperty('error', true);
+      expect(response.body).toHaveProperty('errorMessage');
+      expect(response.body).toHaveProperty('requiredFields', ['phone']);
+      counter.increment(1);
+    });
+
+    it('should return 400 BAD REQUEST - Sending phone number invalid', async () => {
+      counter.newTest();
+      const user = makeUser();
+
+      const response = await request(`${baseUrl}/donation`).post('/')
+        .send({
+          ...user, phone: '1193',
+        });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.type).toBe('application/json');
+      expect(response.body).toHaveProperty('error', true);
+      expect(response.body).toHaveProperty('errorMessage');
+      expect(response.body).toHaveProperty('requiredFields', ['phone']);
       counter.increment(1);
     });
 
@@ -137,6 +202,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
       const response = await request(`${baseUrl}/donation`).post('/').send(user);
 
       expect(response.statusCode).toBe(400);
+      expect(response.type).toBe('application/json');
       expect(response.body).toHaveProperty('error', true);
       expect(response.body).toHaveProperty('errorMessage');
       counter.increment(1);
@@ -150,6 +216,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
       const response = await request(`${baseUrl}/donation`).post('/').send(user);
 
       expect(response.statusCode).toBe(400);
+      expect(response.type).toBe('application/json');
       expect(response.body).toHaveProperty('error', true);
       expect(response.body).toHaveProperty('errorMessage');
       counter.increment(1);
