@@ -17,7 +17,7 @@ const bootstrapTest = (name:string, baseUrl: string, counter: Grades) => {
 };
 
 describe('[Testing] Many URLs', () => {
-  for (let i=0; i<urls.length; i++){
+  for (let i = 0; i < urls.length; i++) {
     const item = urls[i];
     const baseUrl = item.url.replace(/\/$/, '');
     const Counter = new Grades();
@@ -32,7 +32,7 @@ describe('[Testing] Many URLs', () => {
         asserts: `${Counter.getAsserts()}/${Counter.getTests()}`,
       });
     });
-  };
+  }
   afterAll(() => {
     console.log('\n\n\n');
     arrGrades.sort((a, b) => b.grade - a.grade);

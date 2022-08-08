@@ -32,14 +32,24 @@ const testDonation = (baseUrl: string, counter: Grades) => {
     it('should GET donations', async () => {
       counter.newTest();
       const user = makeUser();
-      await request(baseUrl)
-        .post('/donations')
+      user.number = new Date().getTime();
+      console.log(user);
+
+      const responsePost = await request(baseUrl)
+        .post('/donation')
         .send(user);
+
+      expect(responsePost.status).toBe(200);
 
       const response = await request(baseUrl).get('/donation');
 
       expect(response.status).toBe(200);
       expect(response.type).toBe('application/json');
+      expect(response.body).toEqual(
+        expect.arrayContaining(
+          [expect.objectContaining({ number: user.number })],
+        ),
+      );
       counter.increment(1);
     });
 
@@ -49,8 +59,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
 
       const response = await request(`${baseUrl}/donation`).post('/').send(user);
 
-      if (response.statusCode!==200)
-        console.log('response.statusCode!==200 - User Saved', response.body);
+      if (response.statusCode !== 200) { console.log('response.statusCode!==200 - User Saved', response.body); }
       expect(response.statusCode).toBe(200);
       expect(response.type).toBe('application/json');
       expect(response.body).toHaveProperty('success', true);
@@ -66,8 +75,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
           ...user, email: undefined, complement: undefined,
         });
 
-      if (response.statusCode!==200)
-        console.log('response.statusCode!==200 - Without email and complement', response.body);
+      if (response.statusCode !== 200) { console.log('response.statusCode!==200 - Without email and complement', response.body); }
 
       expect(response.statusCode).toBe(200);
       expect(response.type).toBe('application/json');
@@ -116,7 +124,7 @@ const testDonation = (baseUrl: string, counter: Grades) => {
       expect(response.body).toHaveProperty('errorMessage');
       expect(response.body).toHaveProperty('requiredFields');
       expect(response.body).toHaveProperty('requiredFields', ['state']);
-      expect(response.body.requiredFields.includes('state')===true).toBeTruthy();
+      expect(response.body.requiredFields.includes('state') === true).toBeTruthy();
       counter.increment(1);
     });
 
