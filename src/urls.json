@@ -5,25 +5,40 @@
       "url": "https://doar-computador.herokuapp.com/"
     },
     {
-      "url": "https://test-repo-new.herokuapp.com/"
+      "name": "Rafael Antunes",
+      "url": "https://doar-computadores-rafael.herokuapp.com/"
     },
     {
+      "name": "Maria Fernanda",
       "url": "https://api-doar-computadores.herokuapp.com/"
     },
     {
+      "name": "Mattheus Mazzilio",
       "url": "https://api-mazzillio-doarcomputadores.herokuapp.com/"
     },
     {
+      "name": "Lucio Nascimento",
       "url": "https://secure-inlet-50293.herokuapp.com/"
     },
     {
+      "name": "Bruno Theodoro",
       "url": "https://api-donation.herokuapp.com/"
     },
     {
+      "name": "Cristóvão",
       "url": "https://shrouded-cove-82832.herokuapp.com/"
     },
     {
+      "name": "Lyon",
       "url": "https://projeto-doar-computadores-v1.herokuapp.com/"
+    },
+    {
+      "name": "Alex Oliveira",
+      "url": "https://aleks-doar-compautadores.herokuapp.com/"
+    },
+    {
+      "name": "Leonardo Frederico",
+      "url": "https://api-doacao-pc-app-master.herokuapp.com/"
     }
   ]
 }

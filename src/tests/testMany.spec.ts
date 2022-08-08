@@ -24,7 +24,7 @@ describe('[Testing] Many URLs', () => {
     bootstrapTest(baseUrl, Counter);
 
     afterAll(() => {
-      process.stdout.write(`Acertos: ${Counter.getAsserts()}/${Counter.getTests()} - URL: ${baseUrl} \r\n`);
+      process.stdout.write(`Acertos: ${Counter.getAsserts()}/${Counter.getTests()} - Dev: ${item.name} - URL: ${baseUrl} \r\n`);
 
       arrGrades.push({
         name: item?.name,
