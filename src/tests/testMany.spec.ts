@@ -11,21 +11,20 @@ const arrGrades:{
   grade: number,
   asserts: string,
 }[] = [];
-const bootstrapTest = (baseUrl: string, counter: Grades) => {
+const bootstrapTest = (name:string, baseUrl: string, counter: Grades) => {
   testRoot(baseUrl, counter);
   testDonation(baseUrl, counter);
 };
 
 describe('[Testing] Many URLs', () => {
-  urls.forEach((item) => {
+  for (let i=0; i<urls.length; i++){
+    const item = urls[i];
     const baseUrl = item.url.replace(/\/$/, '');
     const Counter = new Grades();
 
-    bootstrapTest(baseUrl, Counter);
+    bootstrapTest(item.name, baseUrl, Counter);
 
     afterAll(() => {
-      process.stdout.write(`Acertos: ${Counter.getAsserts()}/${Counter.getTests()} - Dev: ${item.name} - URL: ${baseUrl} \r\n`);
-
       arrGrades.push({
         name: item?.name,
         url: baseUrl,
@@ -33,11 +32,13 @@ describe('[Testing] Many URLs', () => {
         asserts: `${Counter.getAsserts()}/${Counter.getTests()}`,
       });
     });
-  });
+  };
   afterAll(() => {
     console.log('\n\n\n');
     arrGrades.sort((a, b) => b.grade - a.grade);
-    console.log(arrGrades);
+    arrGrades.forEach((item) => {
+      process.stdout.write(`Acertos: ${item.asserts} - Dev: ${item.name} - URL: ${item.url} \r\n`);
+    });
     fs.writeFileSync('./src/grades.json', JSON.stringify(arrGrades, null, 2));
   });
 });
